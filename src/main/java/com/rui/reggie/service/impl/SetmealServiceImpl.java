@@ -46,6 +46,7 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
      * 删除套餐 同时删除套餐与菜品的关联数据
      * @param ids
      */
+    @Transactional
     public void removeWithDish(List<Long> ids) {
         //查询套餐状态 是否可以删除
         LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
@@ -58,11 +59,11 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
             throw new CustomException("套餐正在售卖中 不能删除");
         }
 
-        //如果可删除 先删除套餐表数据
+        //如果可删除 先删除套餐表数据 setmeal
         this.removeByIds(ids);
-        //删除关系表数据
+        //删除关系表数据 setmeal_dish
         LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.in(SetmealDish::getSetmealId,ids);
-//        setmealDishService.re
+        setmealDishService.remove(lambdaQueryWrapper);
     }
 }

@@ -91,6 +91,9 @@ public class SetmealController {
      */
     @DeleteMapping
     public R<String> delete(@RequestParam List<Long> ids){
-        return null;
+        log.info("ids:{}",ids);
+
+        setmealService.removeWithDish(ids);
+        return R.success("删除成功");
     }
 }
