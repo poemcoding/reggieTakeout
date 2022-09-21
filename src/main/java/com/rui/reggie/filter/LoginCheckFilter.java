@@ -45,18 +45,32 @@ public class LoginCheckFilter implements Filter {
             filterChain.doFilter(request,response);
             return;
         }
-        //4 判断登陆状态 如果已登陆 直接放行
+        //4-1 判断登陆状态 如果已登陆 直接放行
         if (request.getSession().getAttribute("employee")!=null){
             log.info("用户已登陆，用户ID为：{}",request.getSession().getAttribute("employee"));
 
             Long empId = (Long) request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(empId);
-            long id = Thread.currentThread().getId();
-            log.info("线程id为：{}",id);
+//            long id = Thread.currentThread().getId();
+//            log.info("线程id为：{}",id);
 
             filterChain.doFilter(request,response);
             return;
         }
+
+        //4-2 判断登陆状态 如果已登陆 直接放行
+        if (request.getSession().getAttribute("user")!=null){
+            log.info("用户已登陆，用户ID为：{}",request.getSession().getAttribute("user"));
+
+            Long userId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(userId);
+//            long id = Thread.currentThread().getId();
+//            log.info("线程id为：{}",id);
+
+            filterChain.doFilter(request,response);
+            return;
+        }
+
         log.info("用户未登录");
         //5 如果未登陆 则返回未登录结果 向客户端页面相应数据
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
