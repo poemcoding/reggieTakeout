@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rui.reggie.common.R;
 import com.rui.reggie.entity.User;
 import com.rui.reggie.service.UserService;
-import com.rui.reggie.utils.SMSUtils;
 import com.rui.reggie.utils.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class UserController {
             String code = ValidateCodeUtils.generateValidateCode(4).toString();
             log.info("code={}",code);
             //调用腾讯云的短信服务API发送短信(需要修改SMSUtils文件)
-            SMSUtils.sendMessage("瑞吉外卖","",phone,code);
+            //SMSUtils.sendMessage("瑞吉外卖","",phone,code);
             //需要将生成的验证码保存到session中
             session.setAttribute(phone,code);
 
